@@ -62,7 +62,7 @@ module "alb" {
       }
     }
 
-  target_group_arns = module.blog_alb.target_group_arns
+  target_group = {
     ex-instance = {
       name_prefix      = "blog"
       protocol         = "HTTP"
@@ -70,6 +70,7 @@ module "alb" {
       target_type      = "instance"
       target_id        = "aws_instance.blog.id"
     }
+  }
 
   tags = {
     Environment = "dev"
