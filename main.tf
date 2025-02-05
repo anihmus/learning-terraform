@@ -51,7 +51,7 @@ module "alb" {
 
   name    = "blog-alb"
   vpc_id  = "module.blog_vpc.vpc_id"
-  subnets = ["module.blog_vpc.public_subnets"]
+  subnets = "module.blog_vpc.public_subnets"
 
   security_groups = "module.blog_sg.security_group_id"
 
@@ -62,7 +62,7 @@ module "alb" {
       }
     }
 
-  target_group = [
+  target_group = {
     ex-instance = {
       name_prefix      = "blog"
       protocol         = "HTTP"
@@ -70,11 +70,12 @@ module "alb" {
       target_type      = "instance"
       target_id        = "aws_instance.blog.id"
     }
-  ]
+  }
 
-  tags = [
+  tags = {
     Environment = "dev"
-  ]
+  }
+}
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
