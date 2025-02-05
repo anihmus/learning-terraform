@@ -62,7 +62,7 @@ module "alb" {
       }
     }
 
-  target_group = {
+  target_group_arns = {
     ex-instance = {
       name_prefix      = "blog"
       protocol         = "HTTP"
@@ -72,10 +72,6 @@ module "alb" {
     }
   }
 
-  tags = {
-    Environment = "dev"
-  }
-}
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
