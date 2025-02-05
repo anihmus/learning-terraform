@@ -16,7 +16,6 @@ data "aws_ami" "app_ami" {
 
 data "aws_vpc" "default" {
 default = true
-vpc_zone_identifier = mod.blog_vpc.public_subnets
 }
 
 module "autoscaling" {
@@ -29,7 +28,7 @@ module "autoscaling" {
   max_size = 2
 
   security_groups = [module.blog_sg.security_group_id]
-
+  vpc_zone_identifier = [mod.blog_vpc.public_subnets]
   image_id                    = data.aws_ami.app_ami.id
   instance_type          = var.instance_type
 }
