@@ -27,7 +27,6 @@ module "autoscaling" {
   min_size = 1
   max_size = 2
 
-  vpc_zone_identifier = mod.blog_vpc.public_subnets
   security_groups = [module.blog_sg.security_group_id]
 
   image_id                    = data.aws_ami.app_ami.id
@@ -36,6 +35,8 @@ module "autoscaling" {
 
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
+
+  vpc_zone_identifier = mod.blog_vpc.public_subnets
 
   name = "blog_vpc"
   cidr = "10.0.0.0/16"
