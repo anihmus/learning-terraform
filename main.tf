@@ -45,7 +45,6 @@ module "blog_alb" {
   vpc_id             = module.blog_vpc.vpc_id
   subnets            = module.blog_vpc.public_subnets
   security_groups    = [module.blog_sg.security_group_id]
-  vpc_zone_identifier = mod.blog_vpc.public_subnets
   
   target_groups = [
     {
@@ -77,6 +76,7 @@ module "blog_vpc" {
 
   azs             = ["us-west-2a", "us-west-2b", "us-west-2c"]
   
+  vpc_zone_identifier = mod.blog_vpc.public_subnets
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 
   tags = {
