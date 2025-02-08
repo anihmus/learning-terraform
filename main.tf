@@ -18,21 +18,6 @@ data "aws_vpc" "default" {
 default = true
 }
 
-module "autoscaling" {
-  source  = "terraform-aws-modules/autoscaling/aws"
-  version = "8.0.1"
-  # insert the 1 required variable here
-
-  name = "blog"
-  min_size = 1
-  max_size = 2
-
-  security_groups = [module.blog_sg.security_group_id]
-  vpc_zone_identifier = [mod.blog_vpc.public_subnets]
-  image_id                    = data.aws_ami.app_ami.id
-  instance_type          = var.instance_type
-}
-
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -48,6 +33,21 @@ module "blog_vpc" {
     Terraform = "true"
     Environment = "dev"
   }
+}
+
+module "autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "8.0.1"
+  # insert the 1 required variable here
+
+  name = "blog"
+  min_size = 1
+  max_size = 2
+
+  security_groups = [module.blog_sg.security_group_id]
+  vpc_zone_identifier = [mod.blog_vpc.public_subnets]
+  image_id                    = data.aws_ami.app_ami.id
+  instance_type          = var.instance_type
 }
 
 module "blog_alb" {
