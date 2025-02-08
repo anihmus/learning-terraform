@@ -22,7 +22,7 @@ module "blog_vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "5.18.1"
 
-  Name = "blog_vpc"
+  name = "blog_vpc"
   cidr = "10.0.0.0/16"
 
   azs             = ["us-west-2a", "us-west-2b", "us-west-2c"]
@@ -45,7 +45,7 @@ module "autoscaling" {
   min_size = 1
   max_size = 2
 
-  vpc_zone_identifier = mod.blog_vpc.public_subnets
+  vpc_zone_identifier = module.blog_vpc.public_subnets
   security_groups = [module.blog_sg.security_group_id]
   image_id                    = data.aws_ami.app_ami.id
   instance_type          = var.instance_type
